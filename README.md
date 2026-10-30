@@ -182,20 +182,6 @@ A rotina computacional verifica propriedades de rastreabilidade, integridade e c
 
 As planilhas resultantes da aplicação dos controles são disponibilizadas nesta pasta como evidências da execução do procedimento descrito na dissertação.
 
-As referências ISO/IEC 25012, ISO/IEC 25024 e ISO/IEC/IEEE 29119-4 foram utilizadas como apoio conceitual à estruturação dos controles. O procedimento desenvolvido não constitui aplicação integral dessas normas nem implica declaração de conformidade com seus requisitos.
-
-## Licença
-
-O código-fonte disponibilizado neste repositório é licenciado sob a [MIT License](LICENSE), permitindo seu uso, cópia, modificação e redistribuição nos termos da licença.
-
-Essa autorização aplica-se aos componentes de código da solução, incluindo scripts Python, consultas SQL e medidas DAX.
-
-Os documentos, modelos, planilhas de parametrização e demais materiais acadêmicos disponibilizados no repositório não são abrangidos pela licença MIT, salvo indicação expressa em contrário, devendo ser utilizados com a devida atribuição de autoria e referência à pesquisa.
-
-## Como citar
-
-Se esta solução, seus códigos ou sua estrutura metodológica forem utilizados em trabalhos acadêmicos ou aplicações institucionais, recomenda-se citar o autor e o repositório.
-
 As informações estruturadas para citação estão disponíveis no arquivo [`CITATION.cff`](CITATION.cff).
 
 **Autor:** Cassio Santos Araujo Rocha
