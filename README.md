@@ -181,7 +181,3 @@ O procedimento foi estruturado em três controles complementares:
 A rotina computacional verifica propriedades de rastreabilidade, integridade e coerência entre os registros de origem e as estruturas derivadas, evitando, tanto quanto possível, a simples reprodução dos algoritmos utilizados na construção das views.
 
 As planilhas resultantes da aplicação dos controles são disponibilizadas nesta pasta como evidências da execução do procedimento descrito na dissertação.
-
-As informações estruturadas para citação estão disponíveis no arquivo [`CITATION.cff`](CITATION.cff).
-
-**Autor:** Cassio Santos Araujo Rocha
