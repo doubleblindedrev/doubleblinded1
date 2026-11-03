@@ -1,64 +1,64 @@
-# Arquitetura de Dados para Mineração de Processos no SEI
+# Data Architecture for Process Mining in SEI
 
-### Da extração com Web Scraping à análise de desempenho
+### From Web Scraping Extraction to Performance Analysis
 
-Repositório de código e documentação da arquitetura de dados desenvolvida para extração, tratamento, reconstrução e análise de registros de tramitação do Sistema Eletrônico de Informações (SEI).
+Repository containing the source code and documentation of the data architecture developed for extracting, processing, reconstructing, and analyzing transaction records from Brazil's Electronic Information System (*Sistema Eletrônico de Informações* – SEI).
 
-O projeto integra técnicas de Engenharia de Dados, Web Scraping, SQL e Mineração de Processos (*Process Mining*) para transformar históricos administrativos do SEI em estruturas analíticas que permitam examinar a duração dos processos, a permanência nas unidades organizacionais e os padrões de movimentação entre unidades.
+The project integrates Data Engineering, Web Scraping, SQL, and Process Mining techniques to transform SEI administrative histories into analytical structures that support the examination of process duration, residence time within organizational units, and routing patterns between units.
 
-A arquitetura foi desenvolvida e demonstrada no contexto da Universidade Federal de Sergipe (UFS), utilizando como aplicação empírica o processo de cessão de servidores para outros órgãos públicos.
+The architecture was developed and demonstrated in the context of the Federal University of Sergipe (UFS), using the assignment of civil servants to other public agencies as its empirical application.
 
-O desenvolvimento foi orientado pelo paradigma da **Design Science Research (DSR)**, enquanto o modelo **Goal–Question–Metric (GQM)** foi utilizado para definir os objetivos e indicadores da análise.
-
----
-
-## 1. Objetivo do projeto
-
-O SEI registra informações sobre processos administrativos, incluindo datas, unidades organizacionais e descrições das movimentações. Entretanto, esses registros não estão diretamente organizados em um formato adequado à análise orientada a processos.
-
-O objetivo deste projeto é apresentar uma arquitetura de dados capaz de transformar esses históricos em informações estruturadas e rastreáveis, permitindo:
-
-- Extrair históricos de tramitação mediante acesso autenticado e autorizado ao SEI.
-- Armazenar e organizar os registros originais.
-- Reconstruir episódios de permanência dos processos nas unidades organizacionais.
-- Identificar as relações direcionadas de origem e destino das movimentações.
-- Classificar unidades organizacionais em macroetapas analíticas.
-- Calcular indicadores de duração dos processos e das etapas.
-- Examinar a frequência e a distribuição das movimentações entre unidades.
-- Apoiar a identificação exploratória de etapas com durações registradas comparativamente elevadas.
-
-A pesquisa concentra-se na perspectiva de **Enhancement da Mineração de Processos**, com ênfase na análise de desempenho temporal.
-
-O objetivo não é desenvolver um novo algoritmo de mineração, descobrir automaticamente um modelo completo do processo ou realizar uma avaliação automatizada de conformidade normativa. A contribuição está na arquitetura de aquisição, transformação, organização e análise dos dados administrativos.
+The development was guided by the **Design Science Research (DSR)** paradigm, while the **Goal–Question–Metric (GQM)** model was used to define the research objectives and analytical indicators.
 
 ---
 
-## 2. Arquitetura da solução
+## 1. Project Objective
 
-A solução é organizada em componentes integrados que transformam os registros de tramitação do SEI em estruturas adequadas à análise de desempenho.
+SEI records information about administrative cases, including timestamps, organizational units, and descriptions of administrative movements. However, these records are not directly structured in a format suitable for process-oriented analysis.
 
-O fluxo geral compreende:
+The objective of this project is to provide a data architecture capable of transforming these histories into structured and traceable information, enabling:
 
-1. Extração dos históricos de tramitação.
-2. Persistência dos registros em formato estruturado.
-3. Tratamento e transformação dos dados por meio de consultas SQL.
-4. Reconstrução dos episódios de permanência nas unidades.
-5. Reconstrução das movimentações direcionadas entre unidades.
-6. Classificação das unidades em macroetapas analíticas.
-7. Cálculo dos indicadores temporais e de movimentação.
+- Extraction of administrative histories through authenticated and authorized access to SEI.
+- Storage and organization of original records.
+- Reconstruction of process residence episodes within organizational units.
+- Identification of directed origin–destination relationships between units.
+- Classification of organizational units into analytical macro-stages.
+- Calculation of process and stage duration indicators.
+- Examination of the frequency and distribution of movements between units.
+- Exploratory identification of stages with comparatively longer recorded durations.
 
-A arquitetura mantém separadas duas representações complementares:
+The research focuses on the **Enhancement perspective of Process Mining**, emphasizing performance analysis.
 
-- **Episódios de permanência:** representam o intervalo de tempo durante o qual um processo permaneceu associado a determinada unidade organizacional.
-- **Movimentações direcionadas:** representam as relações explícitas entre uma unidade de origem e uma unidade de destino.
-
-Essa separação é importante porque uma movimentação pode possuir múltiplos destinatários, sem que isso represente múltiplos episódios independentes de permanência.
+The objective is not to develop a new mining algorithm, automatically discover a complete process model, or perform automated regulatory compliance assessment. The contribution lies in the architecture for acquiring, transforming, organizing, and analyzing administrative data.
 
 ---
 
-## 3. Estrutura do repositório
+## 2. Solution Architecture
 
-O repositório está organizado nos seguintes diretórios:
+The solution is organized into integrated components that transform SEI transaction records into structures suitable for performance analysis.
+
+The general workflow comprises:
+
+1. Extraction of administrative histories.
+2. Persistence of records in a structured format.
+3. Data processing and transformation through SQL queries.
+4. Reconstruction of residence episodes within organizational units.
+5. Reconstruction of directed movements between units.
+6. Classification of organizational units into analytical macro-stages.
+7. Calculation of temporal and routing indicators.
+
+The architecture maintains two separate but complementary representations:
+
+- **Residence episodes:** represent the time interval during which a process remained associated with a given organizational unit.
+- **Directed movements:** represent explicit relationships between an origin unit and a destination unit.
+
+This separation is important because a single movement may have multiple recipients without representing multiple independent residence episodes.
+
+---
+
+## 3. Repository Structure
+
+The repository is organized into the following directories:
 
 ```text
 doubleblinded1/
@@ -81,9 +81,9 @@ doubleblinded1/
 
 ### 3.1. `01_extracao/`
 
-Contém o componente responsável pela extração automatizada dos históricos de tramitação do SEI.
+Contains the component responsible for the automated extraction of SEI administrative histories.
 
-O script `sei_scraper.py` utiliza:
+The `sei_scraper.py` script uses:
 
 - Python;
 - Selenium;
@@ -91,31 +91,31 @@ O script `sei_scraper.py` utiliza:
 - SQLAlchemy;
 - python-dotenv.
 
-A rotina realiza autenticação na interface do SEI, consulta os processos no período informado, percorre os resultados e extrai seus históricos de tramitação.
+The routine authenticates through the SEI interface, searches for processes within the specified period, navigates through the results, and extracts their transaction histories.
 
-Entre os campos coletados estão:
+The collected fields include:
 
-- Identificador do processo;
-- Tipo de processo;
-- Marcador;
-- Data e horário do evento;
-- Unidade organizacional;
-- Descrição;
-- Observação da movimentação.
+- Process identifier;
+- Process type;
+- Marker;
+- Event date and time;
+- Organizational unit;
+- Description;
+- Movement observation.
 
-Os registros extraídos são organizados em um DataFrame e exportados para arquivo CSV. Opcionalmente, podem ser persistidos em uma tabela de banco de dados relacional.
+The extracted records are organized into a DataFrame and exported to a CSV file. Optionally, they can also be persisted in a relational database table.
 
-A extração depende de credenciais institucionais válidas e de autorização para consultar os processos selecionados.
+Data extraction requires valid institutional credentials and authorization to access the selected processes.
 
 ### 3.2. `02_tratamento_sql/`
 
-Contém as consultas SQL responsáveis pela reconstrução das estruturas analíticas utilizadas na pesquisa.
+Contains the SQL queries responsible for reconstructing the analytical structures used in the research.
 
 **`vw_cessao.sql`**
 
-Reconstrói os episódios de permanência dos processos nas unidades organizacionais.
+Reconstructs process residence episodes within organizational units.
 
-A estrutura resultante contempla:
+The resulting structure includes:
 
 - Processo;
 - Unidade;
@@ -125,27 +125,27 @@ A estrutura resultante contempla:
 - Status_Etapa;
 - Duracao_Decimal_Dias.
 
-O identificador `StayID` diferencia episódios sucessivos de permanência de um mesmo processo em uma mesma unidade.
+The `StayID` identifier distinguishes successive residence episodes of the same process within the same organizational unit.
 
-A consulta considera os seguintes eventos como marcadores de início:
+The query considers the following events as starting markers:
 
-- Processo público gerado;
-- Processo recebido na unidade;
-- Reabertura do processo na unidade.
+- Public process generated;
+- Process received by the unit;
+- Process reopened in the unit.
 
-São considerados marcadores de encerramento do episódio:
+The following events are considered episode-ending markers:
 
-- Conclusão do processo na unidade;
-- Processo remetido pela unidade;
-- Anexado ao processo.
+- Process concluded in the unit;
+- Process forwarded by the unit;
+- Attached to the process.
 
-Os episódios ainda sem evento de encerramento são identificados como em andamento.
+Episodes without a recorded ending event are identified as open.
 
 **`vw_cessao_fluxo.sql`**
 
-Reconstrói as relações direcionadas de movimentação dos processos.
+Reconstructs the directed movement relationships between organizational units.
 
-A estrutura resultante contempla:
+The resulting structure includes:
 
 - Processo;
 - Unidade_Origem;
@@ -153,74 +153,74 @@ A estrutura resultante contempla:
 - Data_Transicao;
 - Horas_de_Transicao.
 
-A consulta identifica as movimentações explícitas registradas no histórico e recupera a unidade de origem das remessas a partir da descrição do andamento, quando disponível.
+The query identifies explicitly recorded movements in the process history and recovers the originating unit from the movement description when available.
 
-Também são representados os marcadores artificiais de início e fim necessários à estruturação das relações. Esses marcadores são diferenciados das remessas efetivas nas análises de frequência entre unidades.
+Artificial start and end markers are also represented to support the structuring of process flows. These markers are distinguished from actual inter-unit transfers when calculating movement frequencies.
 
 ### 3.3. `05_bpmn/`
 
-Contém os materiais de modelagem BPMN utilizados para representar e contextualizar o procedimento institucional de cessão de servidores.
+Contains the BPMN modeling materials used to represent and contextualize the institutional procedure for assigning civil servants to other public agencies.
 
-A representação do fluxo procedimental oferece suporte à compreensão das responsabilidades e da participação das unidades organizacionais.
+The procedural flow representation supports the understanding of organizational responsibilities and the participation of different administrative units.
 
-É importante distinguir o modelo institucional do nível de informação efetivamente registrado pelo SEI: o histórico de tramitação permite observar a participação das unidades, mas não necessariamente identificar cada atividade ou tarefa executada internamente por seus servidores.
+It is important to distinguish the institutional process model from the level of information actually recorded by SEI: transaction histories reveal the participation of organizational units but do not necessarily identify every activity or task performed internally by their staff.
 
 ### 3.4. `06_parametrizacao/`
 
-Contém os materiais de parametrização institucional utilizados para classificar e harmonizar as unidades organizacionais observadas no SEI.
+Contains the institutional parameterization materials used to classify and harmonize the organizational units identified in SEI.
 
-O mapeamento permite relacionar os identificadores originais das unidades às macroetapas analíticas utilizadas na comparação temporal.
+The mapping relates the original unit identifiers to the analytical macro-stages used in temporal comparisons.
 
-A classificação preserva os nomes originais das unidades para assegurar rastreabilidade e permitir a conferência dos registros de origem.
-
----
-
-## 4. Modelo de dados para análise de processos
-
-A arquitetura produz duas estruturas analíticas distintas e complementares.
-
-### 4.1. Episódios de permanência
-
-A estrutura `vw_cessao` permite observar os intervalos de permanência dos processos nas unidades organizacionais.
-
-Cada episódio está associado a:
-
-- Um processo;
-- Uma unidade organizacional;
-- Um identificador de permanência (`StayID`);
-- Uma data de início;
-- Uma data de término, quando registrada;
-- Uma situação do episódio;
-- Uma duração cronológica.
-
-Essa representação permite distinguir retornos sucessivos de um mesmo processo à mesma unidade, evitando que todas as participações sejam tratadas como uma única ocorrência.
-
-Os episódios constituem a principal base para o cálculo das durações associadas às macroetapas analíticas.
-
-### 4.2. Movimentações direcionadas
-
-A estrutura `vw_cessao_fluxo` registra as movimentações entre unidades por meio de relações explícitas de origem e destino.
-
-Cada relação identifica o processo, a unidade de origem, a unidade de destino e o momento registrado da movimentação.
-
-O modelo permite examinar:
-
-- Frequência das movimentações entre pares de unidades;
-- Quantidade de processos que percorreram determinada relação;
-- Recorrência das relações de encaminhamento;
-- Encaminhamentos simultâneos para diferentes unidades.
-
-Quando uma mesma remessa apresenta múltiplos destinatários no mesmo instante, cada destinatário é preservado como uma relação direcionada.
-
-Assim, evita-se impor uma sequência cronológica artificial entre unidades que receberam o mesmo processo simultaneamente.
+Original unit names are preserved to ensure traceability and allow verification against the source records.
 
 ---
 
-## 5. Classificação das macroetapas
+## 4. Data Model for Process Analysis
 
-Para permitir comparações entre processos com diferentes trajetórias administrativas, as unidades organizacionais foram agrupadas em dez categorias analíticas.
+The architecture produces two distinct and complementary analytical structures.
 
-As categorias utilizadas na pesquisa são:
+### 4.1. Residence Episodes
+
+The `vw_cessao` structure represents the residence intervals of processes within organizational units.
+
+Each episode is associated with:
+
+- A process;
+- An organizational unit;
+- A residence identifier (`StayID`);
+- A start date;
+- An end date, when recorded;
+- An episode status;
+- A chronological duration.
+
+This representation makes it possible to distinguish successive returns of the same process to the same unit, avoiding the treatment of all participation periods as a single occurrence.
+
+These episodes constitute the primary basis for calculating durations associated with the analytical macro-stages.
+
+### 4.2. Directed Movements
+
+The `vw_cessao_fluxo` structure records movements between organizational units through explicit origin–destination relationships.
+
+Each relationship identifies the process, origin unit, destination unit, and recorded movement timestamp.
+
+This model supports the examination of:
+
+- Frequency of movements between pairs of units;
+- Number of processes associated with each relationship;
+- Recurrence of routing relationships;
+- Simultaneous dispatches to different units.
+
+When a single dispatch has multiple recipients at the same timestamp, each recipient is preserved as a separate directed relationship.
+
+This approach avoids imposing an artificial chronological sequence on units that received the same process simultaneously.
+
+---
+
+## 5. Macro-Stage Classification
+
+To enable comparisons between processes with different administrative trajectories, organizational units were grouped into ten analytical categories.
+
+The categories used in the research are:
 
 1. DIMOP;
 2. CMOP;
@@ -230,152 +230,152 @@ As categorias utilizadas na pesquisa são:
 6. DIAPC;
 7. DICAF;
 8. DIPES;
-9. UNIDADE SUPERIOR;
-10. UNIDADE DE ORIGEM.
+9. SUPERIOR UNIT;
+10. ORIGIN UNIT.
 
-A classificação harmoniza DCMOP com CMOP e agrupa unidades hierarquicamente superiores na categoria UNIDADE SUPERIOR.
+The classification harmonizes DCMOP with CMOP and groups hierarchically superior units into the SUPERIOR UNIT category.
 
-As demais unidades são classificadas na categoria residual UNIDADE DE ORIGEM, conforme a regra de mapeamento adotada para o procedimento de cessão.
+All remaining units are assigned to the residual ORIGIN UNIT category, according to the mapping rule adopted for the secondment procedure.
 
-Essa categoria residual não representa necessariamente uma unidade administrativa formalmente homogênea, tampouco significa que todas as unidades agrupadas possuam as mesmas atribuições institucionais.
+This residual category does not necessarily represent a formally homogeneous administrative unit, nor does it imply that all grouped units have identical institutional responsibilities.
 
-Os identificadores originais do SEI são preservados para permitir a rastreabilidade das classificações.
-
----
-
-## 6. Indicadores de desempenho
-
-A análise utiliza indicadores definidos a partir do modelo Goal–Question–Metric (GQM).
-
-### 6.1. Lead time operacional
-
-Representa a duração cronológica observada de cada processo, considerando os marcadores operacionais de início e término e, nos casos ainda abertos, o instante de referência da análise.
-
-São utilizadas medidas como:
-
-- Média;
-- Mediana;
-- Desvio-padrão;
-- Quantidade de processos com episódios em aberto.
-
-O indicador representa tempo decorrido em calendário, não tempo efetivo de trabalho.
-
-### 6.2. Duração dos episódios por macroetapa
-
-Representa o tempo decorrido entre o início e o encerramento de cada episódio de permanência em uma unidade.
-
-Para episódios ainda em andamento, considera-se a idade observada até o instante de referência da análise.
-
-A mediana da duração observada é adotada como principal critério para comparar as macroetapas e identificar aquelas que apresentam maior permanência típica registrada.
-
-Média, desvio-padrão, quantidade de episódios e cobertura de processos são utilizados como medidas complementares.
-
-### 6.3. Indicadores de movimentação
-
-As movimentações direcionadas permitem calcular:
-
-- Frequência de cada relação origem–destino;
-- Quantidade de processos distintos associados a cada relação;
-- Cobertura percentual de cada relação no conjunto analisado;
-- Quantidade de processos com encaminhamentos simultâneos.
-
-As movimentações são analisadas separadamente dos episódios de permanência, evitando a duplicação dos tempos quando há múltiplos destinatários.
+Original SEI identifiers are preserved to ensure classification traceability.
 
 ---
 
-## 7. Demonstração empírica
+## 6. Performance Indicators
 
-A arquitetura foi demonstrada utilizando o processo de cessão de servidores da Universidade Federal de Sergipe (UFS) para outros órgãos públicos.
+The analysis uses indicators defined according to the Goal–Question–Metric (GQM) model.
 
-O conjunto empírico utilizado no artigo compreende 56 processos, selecionados de acordo com o campo de data de início utilizado na extração, no período entre fevereiro de 2023 e dezembro de 2025.
+### 6.1. Operational Lead Time
 
-As movimentações posteriores dos processos selecionados foram preservadas.
+Represents the observed chronological duration of each process, considering the operational start and end markers and, for cases that remain open, the analysis reference timestamp.
 
-Para o cálculo das durações de episódios e processos ainda em aberto, foi adotado o instante de referência de:
+The following measures are used:
 
-**23 de outubro de 2026, às 10:54:46 (UTC−03:00).**
+- Mean;
+- Median;
+- Standard deviation;
+- Number of processes with open episodes.
 
-O conjunto de dados apresentou a seguinte composição:
+This indicator represents elapsed calendar time, not actual working time.
 
-| Elemento analisado | Quantidade |
+### 6.2. Episode Duration by Macro-Stage
+
+Represents the elapsed time between the beginning and end of each residence episode within an organizational unit.
+
+For episodes that remain open, the observed age is calculated up to the analysis reference timestamp.
+
+The median observed duration is adopted as the main criterion for comparing macro-stages and identifying those with longer typical recorded residence times.
+
+Mean, standard deviation, number of episodes, and process coverage are used as complementary measures.
+
+### 6.3. Routing Indicators
+
+Directed movements allow the calculation of:
+
+- Frequency of each origin–destination relationship;
+- Number of distinct processes associated with each relationship;
+- Percentage coverage of each relationship within the analyzed dataset;
+- Number of processes involving simultaneous dispatches.
+
+Movements are analyzed separately from residence episodes to avoid duplicating durations when multiple destinations are involved.
+
+---
+
+## 7. Empirical Demonstration
+
+The architecture was demonstrated using the assignment of civil servants from the Federal University of Sergipe (UFS) to other public agencies.
+
+The empirical dataset used in the article comprises 56 cases, selected according to the start-date field used in the extraction, covering the period from February 2023 to December 2025.
+
+Subsequent movements of the selected cases were also retained.
+
+For calculating durations of open episodes and processes, the following reference timestamp was adopted:
+
+**October 23, 2026, at 10:54:46 (UTC−03:00).**
+
+The dataset presented the following composition:
+
+| Analyzed element | Quantity |
 |---|---:|
-| Processos de cessão | 56 |
-| Registros originais de movimentação | 3.905 |
-| Episódios de permanência reconstruídos | 1.584 |
-| Episódios encerrados | 1.564 |
-| Episódios em aberto | 20 |
-| Registros de movimentação direcionada | 2.039 |
-| Identificadores originais de unidades organizacionais | 73 |
-| Categorias analíticas de macroetapas | 10 |
+| Secondment cases | 56 |
+| Original movement records | 3,905 |
+| Reconstructed residence episodes | 1,584 |
+| Completed episodes | 1,564 |
+| Open episodes | 20 |
+| Directed movement records | 2,039 |
+| Original organizational unit identifiers | 73 |
+| Analytical macro-stage categories | 10 |
 
-Os 2.039 registros de movimentação direcionada incluem 1.600 remessas entre unidades e 439 relações artificiais de início e fim, utilizadas na estruturação do fluxo. As relações artificiais não são consideradas remessas efetivas no cálculo das frequências entre unidades.
+The 2,039 directed movement records include 1,600 inter-unit dispatches and 439 artificial start and end relationships used to structure the flow. Artificial relationships are not considered actual dispatches when calculating inter-unit movement frequencies.
 
-Foram identificados encaminhamentos simultâneos em 42 dos 56 processos analisados.
-
----
-
-## 8. Principais resultados
-
-A demonstração empírica permitiu calcular indicadores temporais e examinar as movimentações registradas no procedimento de cessão.
-
-Os principais resultados apresentados no artigo são:
-
-- A mediana do lead time operacional dos processos foi de **211,21 dias**.
-- A macroetapa DIPES apresentou a maior mediana de duração observada, de **15,79 dias**.
-- A DIPES apresentou 68 episódios de permanência distribuídos em 42 processos, incluindo 11 episódios ainda em aberto no instante de referência.
-- A categoria UNIDADE SUPERIOR apresentou mediana de 0,59 dia.
-- A categoria residual UNIDADE DE ORIGEM apresentou mediana de 0,20 dia.
-
-Considerando somente os episódios encerrados, a mediana de permanência na DIPES foi de 10,08 dias. A diferença decorre da inclusão, na análise principal, da idade observada dos episódios ainda em andamento.
-
-A DIPES foi identificada como a principal prioridade temporal relativa entre as dez macroetapas comparadas, segundo o critério de maior mediana de duração observada.
-
-Esse resultado não demonstra, isoladamente, ineficiência operacional, insuficiência de pessoal ou causa específica de atraso. Ele indica uma etapa que merece investigação administrativa complementar.
+Simultaneous dispatches were identified in 42 of the 56 analyzed cases.
 
 ---
 
-## 9. Interpretação e limites da análise
+## 8. Main Results
 
-Os indicadores produzidos devem ser interpretados considerando as características dos registros do SEI.
+The empirical demonstration made it possible to calculate temporal indicators and examine the recorded movements within the secondment procedure.
 
-A duração de um episódio representa tempo cronológico de permanência de um processo em uma unidade organizacional. Ela não permite distinguir diretamente:
+The main results reported in the article are:
 
-- Tempo de trabalho efetivo;
-- Tempo de espera;
-- Tempo de interrupção;
-- Tempo destinado a atividades internas não registradas no histórico.
+- The median operational case lead time was **211.21 days**.
+- The DIPES macro-stage presented the highest median observed duration, at **15.79 days**.
+- DIPES presented 68 residence episodes across 42 cases, including 11 episodes that remained open at the reference timestamp.
+- The SUPERIOR UNIT category presented a median duration of 0.59 days.
+- The residual ORIGIN UNIT category presented a median duration of 0.20 days.
 
-Da mesma forma:
+Considering only completed episodes, the median residence time at DIPES was 10.08 days. This difference results from the inclusion, in the primary analysis, of the observed ages of episodes that remained open.
 
-- Uma movimentação de retorno não significa necessariamente retrabalho.
-- Uma relação de encaminhamento em sentido inverso não comprova, por si só, um desvio processual.
-- Movimentações simultâneas não permitem afirmar que as tarefas internas foram executadas simultaneamente.
-- A permanência em uma unidade não demonstra que todos os dias registrados corresponderam a atividades efetivas de processamento.
-- Um registro de conclusão em determinada unidade não representa automaticamente a conclusão administrativa global do procedimento.
+DIPES was identified as the main relative temporal priority among the ten compared macro-stages, according to the criterion of the highest median observed duration.
 
-A classificação das unidades em macroetapas é uma abstração analítica específica do procedimento estudado e deve ser validada antes de sua aplicação em outros contextos institucionais.
-
-Os resultados empíricos referem-se a um procedimento específico de uma instituição e possuem caráter exploratório. A transferência da arquitetura para outros órgãos requer adequação das regras de extração, dos mapeamentos institucionais e dos critérios de interpretação.
+This result does not, by itself, demonstrate operational inefficiency, insufficient staffing, or a specific cause of delay. Rather, it identifies a stage that deserves further administrative investigation.
 
 ---
 
-## 10. Reprodutibilidade e execução
+## 9. Interpretation and Analytical Limitations
 
-### 10.1. Requisitos
+The indicators produced must be interpreted in light of the characteristics of SEI records.
 
-Para executar o componente de extração, são necessários:
+The duration of an episode represents the chronological time during which a process remained associated with an organizational unit. It does not directly distinguish between:
 
-- Python 3.10 ou superior;
+- Actual working time;
+- Waiting time;
+- Interruption time;
+- Time spent on internal activities not recorded in the system history.
+
+Likewise:
+
+- A return movement does not necessarily indicate rework.
+- A movement in the opposite direction does not, by itself, demonstrate a process deviation.
+- Simultaneous movements do not establish that internal tasks were performed simultaneously.
+- Residence within a unit does not demonstrate that all recorded days corresponded to active processing.
+- A conclusion record within a particular unit does not automatically represent the overall administrative conclusion of the procedure.
+
+The classification of units into macro-stages is an analytical abstraction specific to the studied procedure and must be validated before being applied in other institutional contexts.
+
+The empirical results refer to a specific procedure within a single institution and are exploratory in nature. Transferring the architecture to other public agencies requires adapting the extraction rules, institutional mappings, and interpretation criteria.
+
+---
+
+## 10. Reproducibility and Execution
+
+### 10.1. Requirements
+
+To execute the extraction component, the following are required:
+
+- Python 3.10 or higher;
 - Google Chrome;
-- Acesso autorizado ao SEI;
-- Credenciais institucionais válidas;
-- Dependências especificadas em `01_extracao/requirements.txt`.
+- Authorized access to SEI;
+- Valid institutional credentials;
+- Dependencies specified in `01_extracao/requirements.txt`.
 
-Para executar as consultas SQL disponibilizadas, é necessário um banco de dados PostgreSQL com os registros de origem organizados na tabela `historico`.
+To execute the available SQL queries, a PostgreSQL database containing the source records in a table named `historico` is required.
 
-### 10.2. Instalação das dependências
+### 10.2. Installing Dependencies
 
-A partir da raiz do repositório:
+From the repository root:
 
 ```bash
 cd 01_extracao
@@ -383,7 +383,7 @@ cd 01_extracao
 python -m venv .venv
 ```
 
-Ative o ambiente virtual.
+Activate the virtual environment.
 
 Linux/macOS:
 
@@ -397,41 +397,41 @@ Windows:
 .venv\Scripts\activate
 ```
 
-Instale as dependências:
+Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Caso seja utilizada a persistência direta em PostgreSQL, instale também o driver:
+If direct persistence to PostgreSQL is required, also install the database driver:
 
 ```bash
 pip install "psycopg[binary]>=3.1"
 ```
 
-### 10.3. Configuração da extração
+### 10.3. Extraction Configuration
 
-O script utiliza variáveis de ambiente para configurar o acesso ao SEI e, opcionalmente, a conexão com o banco de dados.
+The script uses environment variables to configure access to SEI and, optionally, the database connection.
 
-As principais variáveis são:
+The main variables are:
 
-| Variável | Finalidade |
+| Variable | Purpose |
 |---|---|
-| `SEI_BASE_URL` | Endereço base do SEI |
-| `SEI_USERNAME` | Usuário institucional |
-| `SEI_PASSWORD` | Senha institucional |
-| `DATABASE_URL` | String de conexão com o banco de dados |
-| `DATABASE_TABLE` | Tabela de destino; padrão: `historico` |
-| `OUTPUT_DIR` | Diretório dos arquivos extraídos |
-| `SELENIUM_TIMEOUT` | Tempo máximo de espera do Selenium |
+| `SEI_BASE_URL` | SEI base URL |
+| `SEI_USERNAME` | Institutional username |
+| `SEI_PASSWORD` | Institutional password |
+| `DATABASE_URL` | Database connection string |
+| `DATABASE_TABLE` | Destination table; default: `historico` |
+| `OUTPUT_DIR` | Directory for extracted files |
+| `SELENIUM_TIMEOUT` | Maximum Selenium wait time |
 
-Essas configurações podem ser fornecidas por meio de um arquivo `.env` local ou diretamente pelas variáveis de ambiente do sistema.
+These settings can be provided through a local `.env` file or directly through the system environment variables.
 
-As credenciais devem permanecer fora do controle de versão.
+Credentials must remain outside version control.
 
-### 10.4. Execução da extração
+### 10.4. Running the Extraction
 
-Execute o script informando o período desejado:
+Run the script by specifying the desired period:
 
 ```bash
 python sei_scraper.py \
@@ -439,84 +439,48 @@ python sei_scraper.py \
   --fim 31/12/2025
 ```
 
-As datas devem ser informadas no formato DD/MM/AAAA.
+Dates must be provided in DD/MM/YYYY format.
 
-Caso não sejam informadas, o script solicitará as datas interativamente.
+If dates are not provided, the script will request them interactively.
 
-A extração gera um arquivo CSV com os históricos coletados. Quando `DATABASE_URL` estiver configurada, os registros também serão persistidos na tabela indicada em `DATABASE_TABLE`.
+The extraction generates a CSV file containing the collected histories. When `DATABASE_URL` is configured, records are also persisted in the table specified by `DATABASE_TABLE`.
 
-A persistência no banco utiliza inserção incremental (`append`). Portanto, em execuções repetidas, devem ser considerados controles de duplicidade adequados à base utilizada.
+Database persistence uses incremental insertion (`append`). Therefore, appropriate duplicate-control mechanisms should be considered when executing the extraction repeatedly.
 
-### 10.5. Tratamento dos dados
+### 10.5. Data Processing
 
-Após disponibilizar os registros na tabela `historico` do PostgreSQL, execute as consultas SQL na seguinte ordem:
+After making the records available in the PostgreSQL `historico` table, execute the SQL queries in the following order:
 
 ```sql
--- Reconstrução dos episódios de permanência
+-- Reconstruction of residence episodes
 \i 02_tratamento_sql/vw_cessao.sql
 
--- Reconstrução das movimentações direcionadas
+-- Reconstruction of directed movements
 \i 02_tratamento_sql/vw_cessao_fluxo.sql
 ```
 
-As consultas produzem as estruturas necessárias às análises temporais e de movimentação.
+The queries produce the structures required for temporal and routing analyses.
 
-A estrutura `vw_cessao` é utilizada para análise dos episódios de permanência, enquanto `vw_cessao_fluxo` é utilizada para examinar as relações entre unidades.
+The `vw_cessao` structure is used to analyze residence episodes, while `vw_cessao_fluxo` is used to examine relationships between organizational units.
 
-O mapeamento institucional disponibilizado em `06_parametrizacao/` deve ser utilizado na classificação das unidades organizacionais e na produção das macroetapas analíticas.
-
----
-
-## 11. Segurança, privacidade e disponibilidade dos dados
-
-O repositório disponibiliza componentes metodológicos e computacionais para demonstração e adaptação da arquitetura.
-
-Não são disponibilizados:
-
-- Credenciais de acesso ao SEI;
-- Senhas institucionais;
-- Cookies ou tokens de autenticação;
-- Históricos administrativos originais;
-- Bases de dados institucionais contendo informações dos processos.
-
-A coleta deve ser realizada exclusivamente por usuários autorizados e respeitando as permissões institucionais, as regras de acesso ao SEI e os requisitos aplicáveis de proteção de dados.
-
-Os identificadores dos processos são mantidos internamente quando necessários à vinculação e à verificação dos registros, mas não integram os resultados públicos apresentados no artigo.
-
-A reprodução integral da coleta depende de acesso autorizado ao sistema de origem. As consultas SQL, as regras de transformação e os procedimentos analíticos podem ser examinados independentemente da disponibilização dos históricos administrativos originais.
+The institutional mapping available in `06_parametrizacao/` should be used to classify organizational units and generate the analytical macro-stages.
 
 ---
 
-## 12. Limitações técnicas
+## 11. Security, Privacy, and Data Availability
 
-O componente de extração utiliza automação da interface web do SEI por meio do Selenium.
+The repository provides methodological and computational components for demonstrating and adapting the architecture.
 
-Consequentemente, alterações na estrutura das páginas, nos seletores HTML, nos mecanismos de autenticação ou nas políticas de segurança do sistema podem exigir adequações no código.
+The following are not publicly distributed:
 
-A reprodução dos resultados também depende da correspondência entre as descrições dos eventos, os registros originais, as regras de reconstrução dos episódios e o mapeamento das unidades organizacionais.
+- SEI access credentials;
+- Institutional passwords;
+- Authentication cookies or tokens;
+- Original administrative histories;
+- Institutional databases containing process information.
 
-A arquitetura deve ser adaptada e validada antes de sua utilização em outras instituições ou outros tipos de processos administrativos.
+Data collection must be performed exclusively by authorized users and must comply with institutional permissions, SEI access rules, and applicable data protection requirements.
 
----
+Process identifiers are retained internally when necessary for record linkage and verification but are omitted from the public results presented in the article.
 
-## 13. Contribuição científica
-
-A principal contribuição deste projeto consiste em uma arquitetura de dados auditável para transformar históricos administrativos do SEI em informações estruturadas para análise orientada a processos.
-
-A integração da extração autenticada, persistência dos registros, reconstrução SQL de episódios e movimentações direcionadas, classificação institucional e cálculo de indicadores temporais oferece uma alternativa para instituições que enfrentam restrições de acesso direto aos bancos de dados do sistema.
-
-O trabalho demonstra que é possível desenvolver análises de desempenho temporal a partir dos registros operacionais disponíveis, preservando a rastreabilidade dos dados e reconhecendo os limites de interpretação associados à granularidade das informações.
-
-A contribuição é metodológica e arquitetural: não representa a comprovação de uma intervenção de melhoria organizacional nem a identificação causal das razões dos atrasos observados.
-
----
-
-## 14. Artigo relacionado
-
-**A Data Architecture for Process Mining in Electronic Information System (SEI): From Web-Scraping Extraction to Performance Analysis**
-
-O artigo apresenta os fundamentos metodológicos, a especificação da arquitetura, os procedimentos de transformação dos dados, os indicadores utilizados e os resultados da demonstração empírica realizada na Universidade Federal de Sergipe.
-
-**Repositório do projeto:**
-
-https://github.com/doubleblindedrev/doubleblinded1
+Full reproduction of the data acquisition process requires authorized access to the source system. SQL queries, transformation rules, and analytical procedures can be independently examined without access to the original administrative histories.
